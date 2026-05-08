@@ -1,1 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>🌍 Country Code Finder</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+    linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)),
+    url('https://images.unsplash.com/photo-1521295121783-8a321d551ad2?q=80&w=1400&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:750px;
+    padding:35px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.15);
+    box-shadow:0 0 40px rgba(0,0,0,0.5);
+    color:white;
+}
+
+h1{
+    text-align:center;
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.desc{
+    text-align:center;
+    color:#ddd;
+    margin-bottom:30px;
+}
+
+.search{
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:18px;
+    outline:none;
+    font-size:18px;
+    background:rgba(255,255,255,0.15);
+    color:white;
+    margin-bottom:25px;
+}
+
+.search::placeholder{
+    color:#ddd;
+}
+
+.result{
+    display:none;
+    padding:25px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.08);
+    animation:fade 0.4s ease;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.country{
+    font-size:32px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.code{
+    font-size:28px;
+    color:#00ffbf;
+    margin-bottom:15px;
+}
+
+.postal{
+    font-size:18px;
+    line-height:1.8;
+    color:#fff;
+}
+
+.error{
+    color:#ff7b7b;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.footer{
+    text-align:center;
+    margin-top:25px;
+    color:#ccc;
+    font-size:14px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🌍 Country Finder</h1>
+
+    <div class="desc">
+        Search any country to get its international code and postal codes
+    </div>
+
+    <input 
+    type="text" 
+    id="searchInput"
+    class="search"
+    placeholder="Search code word...">
+
+    <div id="result" class="result"></div>
+
+    <div class="footer">
+        HTML • CSS • JavaScript
+    </div>
+
+</div>
+
+<script>
+
+const countries = {
+
+    tunisia:{
+        name:"Tunisia 🇹🇳",
+        code:"+216",
+        postal:"1000 Tunis • 4000 Sousse • 3000 Sfax • 8000 Nabeul"
+    },
+
+    france:{
+        name:"France 🇫🇷",
+        code:"+33",
+        postal:"75000 Paris • 13000 Marseille • 69000 Lyon"
+    },
+
+    algeria:{
+        name:"Algeria 🇩🇿",
+        code:"+213",
+        postal:"16000 Alger • 31000 Oran • 25000 Constantine"
+    },
+
+    morocco:{
+        name:"Morocco 🇲🇦",
+        code:"+212",
+        postal:"10000 Rabat • 20000 Casablanca • 40000 Marrakech"
+    },
+
+    egypt:{
+        name:"Egypt 🇪🇬",
+        code:"+20",
+        postal:"11511 Cairo • 21500 Alexandria"
+    },
+
+    usa:{
+        name:"United States 🇺🇸",
+        code:"+1",
+        postal:"10001 New York • 90001 Los Angeles"
+    },
+
+    canada:{
+        name:"Canada 🇨🇦",
+        code:"+1",
+        postal:"M5H Toronto • H1A Montreal"
+    },
+
+    germany:{
+        name:"Germany 🇩🇪",
+        code:"+49",
+        postal:"10115 Berlin • 20095 Hamburg"
+    },
+
+    italy:{
+        name:"Italy 🇮🇹",
+        code:"+39",
+        postal:"00100 Rome • 20100 Milan"
+    },
+
+    spain:{
+        name:"Spain 🇪🇸",
+        code:"+34",
+        postal:"28001 Madrid • 08001 Barcelona"
+    },
+
+    turkey:{
+        name:"Turkey 🇹🇷",
+        code:"+90",
+        postal:"34000 Istanbul • 06000 Ankara"
+    },
+
+    japan:{
+        name:"Japan 🇯🇵",
+        code:"+81",
+        postal:"100-0001 Tokyo • 530-0001 Osaka"
+    }
+
+};
+
+const input = document.getElementById("searchInput");
+const result = document.getElementById("result");
+
+input.addEventListener("input", function(){
+
+    const value = input.value.toLowerCase().trim();
+
+    if(value === ""){
+        result.style.display = "none";
+        return;
+    }
+
+    if(countries[value]){
+
+        result.style.display = "block";
+
+        result.innerHTML = `
+            <div class="country">
+                ${countries[value].name}
+            </div>
+
+            <div class="code">
+                International Code: ${countries[value].code}
+            </div>
+
+            <div class="postal">
+                📮 Postal Codes:<br><br>
+                ${countries[value].postal}
+            </div>
+        `;
+
+    } else {
+
+        result.style.display = "block";
+
+        result.innerHTML = `
+            <div class="error">
+                ❌ Country not found
+            </div>
+        `;
+    }
+
+});
+
+</script>
+
+</body>
+</html>
